@@ -1,29 +1,10 @@
-# timeclock
+# BTTF Time Machine Clock
 
-This template should help get you started developing with Vue 3 in Vite.
+It's impossible to jump through time and space at this point🥺, but I want to get a taste of the atmosphere, so I started with the shape.
 
-## Recommended IDE Setup
+## Usage
+`npm install`
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+`npm run dev`
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
+![タイトルなし2](https://github.com/CAT5NEKO/BTTFclock/assets/111590457/5ef9adab-665f-4af2-baf3-bc64ffb8b325)
