@@ -1,8 +1,17 @@
 <template>
   <div id="clock">
-    <h1 id="current-date">{{ currentDate }}</h1>
-    <h1 id="past-date">{{ pastDate }}</h1>
-    <h1 id="future-date">{{ futureDate }}</h1>
+    <div class="time-container">
+      <h1 :style="{ color: futureDateColor, backgroundColor: 'black' }" id="future-date">{{ futureDate }}</h1>
+      <p>DESTINATION TIME</p>
+    </div>
+    <div class="time-container">
+      <h1 :style="{ color: currentDateColor, backgroundColor: 'black' }" id="current-date">{{ currentDate }}</h1>
+      <p>PRESENT TIME</p>
+    </div>
+    <div class="time-container">
+      <h1 :style="{ color: pastDateColor, backgroundColor: 'black' }" id="past-date">{{ pastDate }}</h1>
+      <p>LAST TIME DEPARTED</p>
+    </div>
   </div>
 </template>
 
@@ -12,30 +21,34 @@ export default {
     return {
       currentDate: '',
       pastDate: '',
-      futureDate: ''
+      futureDate: '',
+      currentDateColor: 'yellow',
+      pastDateColor: 'red',
+      futureDateColor: 'green',
+      previousFutureDate: null //過去に未来だった日付けを貯めておく場所
     };
   },
   mounted() {
     this.updateClock();
-    setInterval(this.updateClock, 1000);
+    setInterval(this.updateClock, 2000);　//本来ならプルトニウムは有限だしドクはこんなに時間弄らないけどコロコロ変わった方が面白い
   },
   methods: {
     getRandomDate(start, end) {
-      return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+      const startTimestamp = start.getTime();
+      const endTimestamp = end.getTime();
+      const range = endTimestamp - startTimestamp;
+      const randomOffset = Math.floor(Math.random() * range);
+      const randomTimestamp = startTimestamp + randomOffset;
+      return new Date(randomTimestamp);
     },
     updateClock() {
       const currentDateTime = new Date();
-      const pastDateTimeStart = new Date('1950-01-01T00:00:00');
-      const pastDateTimeEnd = new Date('1985-11-05T01:21:00');
-      const futureDateTimeStart = new Date('1955-11-05T01:21:00');
-      const futureDateTimeEnd = new Date('2050-01-01T00:00:00');
-
-      const pastDateTime = this.getRandomDate(pastDateTimeStart, pastDateTimeEnd);
-      const futureDateTime = this.getRandomDate(futureDateTimeStart, futureDateTimeEnd);
-
+      let pastDateTime = this.previousFutureDate || this.getRandomDate(new Date('1950-01-01T00:00:00'), new Date('1985-11-05T01:21:00'));
+      const futureDateTime = this.getRandomDate(new Date('1950-01-01T00:00:00'), new Date('1985-11-05T01:21:00'));
       this.currentDate = this.formatDate(currentDateTime);
       this.pastDate = this.formatDate(pastDateTime);
       this.futureDate = this.formatDate(futureDateTime);
+      this.previousFutureDate = futureDateTime;
     },
     formatDate(date) {
       const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
@@ -51,30 +64,38 @@ export default {
 };
 </script>
 
-
 <style scoped>
 #clock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
   font-size: 2em;
   text-align: center;
-  border: 5px solid #fff;
   padding: 20px;
-  border-radius: 10px;
+  background-color: #23232a;
+  color: #cdcdde;
 }
 
-#clock h1 {
+.time-container {
+  margin-bottom: auto;
+  padding: 10px;
+}
+
+h1 {
   margin: 0;
-  font-size: 1.5em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  font-family: "Arial Black";
+
 }
 
-#clock #current-date {
-  color: red;
-}
-
-#clock #past-date {
-  color: yellow;
-}
-
-#clock #future-date {
-  color: green;
+p {
+  margin: 5px 0 0;
+  font-family: 'Arial Black';
+  text-align: center;
+  text-overflow: ellipsis;
 }
 </style>
