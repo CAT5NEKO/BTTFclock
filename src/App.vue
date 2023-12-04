@@ -20,10 +20,18 @@ export default {
     setInterval(this.updateClock, 1000);
   },
   methods: {
+    getRandomDate(start, end) {
+      return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+    },
     updateClock() {
       const currentDateTime = new Date();
-      const pastDateTime = new Date('1985-11-05T01:21:00');
-      const futureDateTime = new Date('1955-11-05T01:21:00');
+      const pastDateTimeStart = new Date('1950-01-01T00:00:00');
+      const pastDateTimeEnd = new Date('1985-11-05T01:21:00');
+      const futureDateTimeStart = new Date('1955-11-05T01:21:00');
+      const futureDateTimeEnd = new Date('2050-01-01T00:00:00');
+
+      const pastDateTime = this.getRandomDate(pastDateTimeStart, pastDateTimeEnd);
+      const futureDateTime = this.getRandomDate(futureDateTimeStart, futureDateTimeEnd);
 
       this.currentDate = this.formatDate(currentDateTime);
       this.pastDate = this.formatDate(pastDateTime);
@@ -42,6 +50,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 #clock {
